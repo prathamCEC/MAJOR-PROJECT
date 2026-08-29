@@ -24,3 +24,11 @@ project_backend/phase_5_retinal_fusion/outputs/*.pt
 .vscode/
 .idea/
 *.log
+
+# Runtime uploads, generated reports and explainability outputs
+project_backend/backend/uploads/
+project_backend/backend/reports/pdf/
+project_backend/backend/reports/json/
+project_backend/phase_10_explainability/outputs/
+project_backend/phase_11_report_generator/outputs/reports/pdf/
+project_backend/phase_11_report_generator/outputs/reports/json/
