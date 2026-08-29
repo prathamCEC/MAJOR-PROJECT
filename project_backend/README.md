@@ -240,12 +240,61 @@ python -m phase_11_report_generator.main generate \
     --octa datasets/approved/octa/octa_sample_1_processed.png
 ```
 
+## 🌐 Phase 12 & Full-Stack System (FastAPI Backend + Streamlit Frontend)
+
+The system features a **FastAPI REST backend** for high-throughput multimodal deep learning inference and an **interactive Streamlit frontend dashboard** for patient intake, scan uploads, real-time saliency visualization, and PDF report downloads.
+
+### 🖥️ 1. Launching the FastAPI Backend Server
+```powershell
+cd project_backend
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+```
+- **Interactive Swagger Documentation**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- **ReDoc Documentation**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+### 💻 2. Launching the Streamlit Clinical Frontend
+In a new terminal window:
+```powershell
+cd project_backend
+streamlit run frontend/app.py
+```
+- **Local Dashboard URL**: [http://localhost:8501](http://localhost:8501)
+
+### 🔌 3. Key REST API Endpoints
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/health` | Backend status, service version, and PyTorch device (`cpu` / `cuda`) |
+| `GET` | `/model-status` | Component-level checkpoint & loading status for Phases 4 through 11 |
+| `POST` | `/api/v1/analyze` | Accepts multipart patient form (clinical metrics + OCT-A, OCT-B, Fundus scans) and runs full Phases 2-11 pipeline |
+| `GET` | `/api/v1/report/{report_id}/pdf` | Downloads the compiled multi-page Clinical Assessment Report PDF |
+| `GET` | `/api/v1/report/{report_id}/json` | Downloads the structured machine-readable JSON artifact |
+
 ---
 
-## Running Automated Tests
+## ⚡ Master One-Line Pipeline Runner
 
-Run the complete test suite across Phase 2 through Phase 11 + Integration:
-```bash
+To run the complete pipeline directly from the command line:
+
+```powershell
+cd project_backend
+python run_all.py --patient-id PATIENT_01
+```
+
+---
+
+## 🧪 Comprehensive Automated Regression Tests
+
+To run the complete **210 automated unit and integration tests** spanning all 11 ML phases plus the FastAPI REST backend:
+
+```powershell
+cd project_backend
 python -m pytest -v
 ```
 
+---
+
+## ⚠️ Medical Safety & Research Disclaimer
+
+> [!IMPORTANT]
+> **RESEARCH PROTOTYPE ONLY**: This system is designed solely as an academic and research decision-support tool. It does **NOT** provide a definitive medical diagnosis and should never replace formal clinical judgment by licensed healthcare professionals. Model predictions represent statistical risk estimations based on multimodal imaging and tabular clinical biomarkers.
