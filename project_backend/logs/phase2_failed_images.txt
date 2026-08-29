@@ -1,0 +1,2 @@
+# Phase 2 Failed Images Log
+# Records image loading, validation, or processing failures during batch execution.
