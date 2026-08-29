@@ -1,4 +1,4 @@
-# Retinal Disease AI Backend — Phase 2 to Phase 8 Architecture
+# Retinal Disease AI Backend — Phase 2 to Phase 9 Architecture
 
 ## Project Overview
 This repository contains the backend architecture for research-oriented multimodal retinal image and clinical data analysis across **OCT-A**, **OCT-B**, and **Fundus** imaging modalities alongside structured patient health variables.
@@ -15,7 +15,8 @@ The complete modular system consists of:
 5. **Phase 6 — FT-Transformer for Structured Clinical Data**: Transforms patient tabular health variables (BMI, hypertension, diabetes, smoking, demographics) into a normalized **Clinical Representation (CR)** vector.
 6. **Phase 7 — Retina–Clinical Cross-Attention Fusion & Unified Patient Representation (UPR)**: Fuses Retinal (URR) and Clinical (CR) vectors via bidirectional cross-attention and learnable gated multimodal fusion into a **Unified Patient Representation (UPR)** vector ($[B, 512]$).
 7. **Phase 8 — Multi-Task Disease Prediction Network**: Consumes the UPR to perform decoupled, simultaneous binary predictions for **Stroke** and **Alzheimer's Disease** with masked multi-task loss and class imbalance handling.
-8. **Integration Layers**: Bridges Phases 2 through 8 into automated end-to-end workflows.
+8. **Phase 9 — Monte Carlo Dropout & Model Confidence Engine**: Performs stochastic inference forward passes with active dropout to quantify predictive uncertainty (predictive mean, variance, standard deviation, predictive Shannon entropy) and bounded research confidence scores.
+9. **Integration Layers**: Bridges Phases 2 through 9 into automated end-to-end workflows.
 
 ---
 
@@ -69,10 +70,16 @@ The complete modular system consists of:
                                   MULTI-TASK DISEASE PREDICTION NETWORK
                                         (Shared Prediction Trunk)
                                                     │
+                                                    ▼
+                                                 PHASE 9
+                                   MONTE CARLO DROPOUT UNCERTAINTY
+                                    (T Stochastic Forward Passes)
+                                                    │
                                      ┌──────────────┴──────────────┐
                                      ↓                             ↓
-                            STROKE PREDICTION             ALZHEIMER'S PREDICTION
-                            (Logit, Prob, Class)           (Logit, Prob, Class)
+                            STROKE UNCERTAINTY            ALZHEIMER'S UNCERTAINTY
+                            (Mean, Var, Std,              (Mean, Var, Std,
+                             Entropy, Confidence)          Entropy, Confidence)
 ```
 
 ---
@@ -88,21 +95,19 @@ project_backend/
 ├── phase_5_retinal_fusion/               # Phase 5 Multimodal Retinal Fusion Package (16 tests)
 ├── phase_6_clinical_transformer/         # Phase 6 Clinical FT-Transformer Package (18 tests)
 ├── phase_7_retina_clinical_fusion/       # Phase 7 Retina-Clinical Cross-Attention Package (18 tests)
-│
 ├── phase_8_multitask_prediction/         # Phase 8 Multi-Task Disease Prediction Package (17 tests)
-│   ├── config.py                         # Shared hidden dims, loss weights, thresholds
-│   ├── shared_network.py                 # Shared prediction representation trunk
-│   ├── prediction_heads.py               # Stroke and Alzheimer's binary classification heads
-│   ├── loss.py                           # Masked multi-task loss (missing label safe)
-│   ├── model.py                          # MultiTaskDiseasePredictionNetwork (MC-Dropout ready)
-│   ├── metrics.py                        # Multi-task accuracy, sensitivity, specificity, AUC
-│   ├── trainer.py                        # Supervised multi-task training & validation loop
+│
+├── phase_9_uncertainty/                  # Phase 9 MC-Dropout & Confidence Package (14 tests)
+│   ├── config.py                         # MC samples, threshold, scaling, epsilon config
+│   ├── mc_dropout.py                     # Fine-grained dropout-only train activation
+│   ├── uncertainty.py                    # Predictive mean, variance, std, entropy calculation
+│   ├── confidence.py                     # Normalized research confidence metric
+│   ├── engine.py                         # MCDropoutUncertaintyEngine module
 │   ├── validation.py                     # Tensor dimension & finite numerical audits
-│   ├── inference.py                      # End-to-end multi-task inference pipeline
-│   ├── checkpoint.py                     # Checkpoint manager
-│   ├── main.py                           # CLI entry point for summary and prediction
+│   ├── pipeline.py                       # End-to-end full patient uncertainty pipeline
+│   ├── main.py                           # CLI entry point for summary and estimation
 │   ├── tests/                            # Comprehensive unit & integration tests
-│   ├── README.md                         # Phase 8 documentation
+│   ├── README.md                         # Phase 9 documentation
 │   └── requirements.txt
 │
 ├── integration/                          # Integration Layer
@@ -163,6 +168,10 @@ python -m phase_6_clinical_transformer.main extract \
 
 ### Mode 6 — Phase 7 Retina-Clinical Cross-Attention & UPR Fusion
 ```bash
+# Architecture summary
+python -m phase_7_retina_clinical_fusion.main summary
+
+# Fuse Retinal URR and Clinical CR into Unified Patient Representation (UPR)
 python -m phase_7_retina_clinical_fusion.main fuse \
     --retinal phase_5_retinal_fusion/outputs/patient_urr.pt \
     --clinical phase_6_clinical_transformer/outputs/clinical_representations.pt \
@@ -180,11 +189,24 @@ python -m phase_8_multitask_prediction.main predict \
     --output phase_8_multitask_prediction/outputs/multitask_predictions.pt
 ```
 
+### Mode 8 — Phase 9 Monte Carlo Dropout & Uncertainty Estimation
+```bash
+# Sampling summary
+python -m phase_9_uncertainty.main summary
+
+# Estimate Stroke & Alzheimer's uncertainty metrics from UPR
+python -m phase_9_uncertainty.main estimate \
+    --upr phase_7_retina_clinical_fusion/outputs/unified_patient_representation.pt \
+    --samples 30 \
+    --threshold 0.5 \
+    --output phase_9_uncertainty/outputs/uncertainty_estimates.pt
+```
+
 ---
 
 ## Running Automated Tests
 
-Run the complete test suite across Phase 2 through Phase 8 + Integration:
+Run the complete test suite across Phase 2 through Phase 9 + Integration:
 ```bash
 python -m pytest -v
 ```
