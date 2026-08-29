@@ -1,0 +1,273 @@
+{
+  "report_id": "REP-CLINICAL_DEM-20260829105150",
+  "patient_id": "CLINICAL_DEMO_01",
+  "generated_at": "2026-08-29 10:51:50",
+  "system_version": "v1.0.0 (Research Edition)",
+  "modalities_available": {
+    "octa": true,
+    "octb": false,
+    "fundus": false
+  },
+  "patient_demographics": {
+    "patient_id": "CLINICAL_DEMO_01",
+    "age_group": "O_CD",
+    "gender": "Male (1)",
+    "education_years": "16.0",
+    "bmi": "26.8",
+    "hypertension": "Positive (1)",
+    "diabetes_type2": "Negative (0)",
+    "smoking_status": "History (1)",
+    "alcohol_status": "History (1)",
+    "raw_clinical_record": {
+      "ID#": "CLINICAL_DEMO_01",
+      "Old groups": "O_CD",
+      "Gender": 1,
+      "Education": 16.0,
+      "BMI": 26.8,
+      "Obese": 0.0,
+      "EtOH_ever": 1,
+      "EtOH_current": 0,
+      "Smoking_ever": 1,
+      "Smoking_current": 0,
+      "HTN": 1,
+      "DM2": 0
+    }
+  },
+  "image_quality": {
+    "octa": {
+      "modality": "octa",
+      "available": true,
+      "quality_score": null,
+      "decision": "ACCEPT (Unchecked)",
+      "details": {}
+    },
+    "octb": {
+      "modality": "octb",
+      "available": false,
+      "quality_score": null,
+      "decision": "Not available",
+      "details": {}
+    },
+    "fundus": {
+      "modality": "fundus",
+      "available": false,
+      "quality_score": null,
+      "decision": "Not available",
+      "details": {}
+    }
+  },
+  "stroke_assessment": {
+    "disease_name": "Stroke",
+    "predicted_class": 0,
+    "probability": 0.47829777002334595,
+    "confidence_percent": 99.27783966064453,
+    "uncertainty_level": "LOW",
+    "confidence_level": "HIGH CONFIDENCE",
+    "predictive_variance": 0.001,
+    "predictive_entropy": 0.6929590702056885,
+    "risk_category": "MODERATE RISK",
+    "is_elevated_uncertainty": false
+  },
+  "alzheimer_assessment": {
+    "disease_name": "Alzheimer's Disease",
+    "predicted_class": 0,
+    "probability": 0.46134912967681885,
+    "confidence_percent": 99.04010772705078,
+    "uncertainty_level": "LOW",
+    "confidence_level": "HIGH CONFIDENCE",
+    "predictive_variance": 0.001,
+    "predictive_entropy": 0.6923718452453613,
+    "risk_category": "MODERATE RISK",
+    "is_elevated_uncertainty": false
+  },
+  "explainability": {
+    "modality_attributions": {
+      "octa_attribution_percent": 37.56,
+      "octb_attribution_percent": 12.52,
+      "fundus_attribution_percent": 12.52,
+      "clinical_attribution_percent": 37.39
+    },
+    "stroke_gradcam": {
+      "octa": {
+        "modality": "octa",
+        "status": "SUCCESS",
+        "panel_path": null,
+        "caption": "Grad-CAM visualization of salient retinal regions contributing to model prediction."
+      },
+      "octb": {
+        "modality": "octb",
+        "status": "MODALITY_NOT_PROVIDED",
+        "panel_path": null,
+        "caption": "Grad-CAM visualization of salient retinal regions contributing to model prediction."
+      },
+      "fundus": {
+        "modality": "fundus",
+        "status": "MODALITY_NOT_PROVIDED",
+        "panel_path": null,
+        "caption": "Grad-CAM visualization of salient retinal regions contributing to model prediction."
+      }
+    },
+    "alzheimer_gradcam": {
+      "octa": {
+        "modality": "octa",
+        "status": "SUCCESS",
+        "panel_path": null,
+        "caption": "Grad-CAM visualization of salient retinal regions contributing to model prediction."
+      },
+      "octb": {
+        "modality": "octb",
+        "status": "MODALITY_NOT_PROVIDED",
+        "panel_path": null,
+        "caption": "Grad-CAM visualization of salient retinal regions contributing to model prediction."
+      },
+      "fundus": {
+        "modality": "fundus",
+        "status": "MODALITY_NOT_PROVIDED",
+        "panel_path": null,
+        "caption": "Grad-CAM visualization of salient retinal regions contributing to model prediction."
+      }
+    },
+    "stroke_shap_clinical": [
+      {
+        "feature_name": "Old groups",
+        "patient_value": "O_CD",
+        "shap_value": 0.01677,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "BMI",
+        "patient_value": 26.8,
+        "shap_value": -0.01439,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "DM2",
+        "patient_value": 0,
+        "shap_value": -0.00852,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "Education",
+        "patient_value": 16.0,
+        "shap_value": 0.00696,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "HTN",
+        "patient_value": 1,
+        "shap_value": -0.00519,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "Smoking_ever",
+        "patient_value": 1,
+        "shap_value": -0.00462,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "EtOH_ever",
+        "patient_value": 1,
+        "shap_value": 0.00436,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "Gender",
+        "patient_value": 1,
+        "shap_value": -0.00338,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "Obese",
+        "patient_value": 0.0,
+        "shap_value": -0.00289,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "EtOH_current",
+        "patient_value": 0,
+        "shap_value": 0.0,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "Smoking_current",
+        "patient_value": 0,
+        "shap_value": 0.0,
+        "direction": "DECREASES_RISK"
+      }
+    ],
+    "alzheimer_shap_clinical": [
+      {
+        "feature_name": "Old groups",
+        "patient_value": "O_CD",
+        "shap_value": 0.03027,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "Education",
+        "patient_value": 16.0,
+        "shap_value": 0.01663,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "HTN",
+        "patient_value": 1,
+        "shap_value": -0.01293,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "EtOH_ever",
+        "patient_value": 1,
+        "shap_value": 0.01098,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "Gender",
+        "patient_value": 1,
+        "shap_value": 0.0109,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "Smoking_ever",
+        "patient_value": 1,
+        "shap_value": 0.00992,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "BMI",
+        "patient_value": 26.8,
+        "shap_value": -0.00895,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "DM2",
+        "patient_value": 0,
+        "shap_value": -0.00394,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "Obese",
+        "patient_value": 0.0,
+        "shap_value": 0.00094,
+        "direction": "INCREASES_RISK"
+      },
+      {
+        "feature_name": "EtOH_current",
+        "patient_value": 0,
+        "shap_value": 0.0,
+        "direction": "DECREASES_RISK"
+      },
+      {
+        "feature_name": "Smoking_current",
+        "patient_value": 0,
+        "shap_value": 0.0,
+        "direction": "DECREASES_RISK"
+      }
+    ],
+    "stroke_shap_plot_path": null,
+    "alzheimer_shap_plot_path": null
+  },
+  "clinical_summary_text": "Multimodal AI assessment was performed for patient 'CLINICAL_DEMO_01' utilizing available retinal modalities (OCTA) and patient tabular clinical health variables. For the Stroke target, the model estimated a predicted probability of 0.4783 (MODERATE RISK), with an estimated model confidence of 99.3% and low predictive uncertainty (variance=0.0010). For the Alzheimer's Disease target, the model estimated a predicted probability of 0.4613 (MODERATE RISK), with an estimated model confidence of 99.0% and low predictive uncertainty (variance=0.0010). Model explainability heatmaps (Grad-CAM) and game-theoretic clinical feature contributions (SHAP) are integrated to highlight computational saliency patterns.",
+  "multimodal_summary_text": "Multimodal Pathway Utilization Summary:\n  • OCTA: Status = Processed, Feature Attribution = 37.56%\n  • OCTB: Status = Not available, Feature Attribution = 0.00%\n  • FUNDUS: Status = Not available, Feature Attribution = 0.00%\n  • Tabular Clinical Pathway: Status = Processed, Feature Attribution = 37.39%\n  • Multi-Task Target Decoupling: Stroke (MODERATE RISK) | Alzheimer's (MODERATE RISK)",
+  "limitations_text": "1. Experimental Model Scope: Algorithms are trained on curated academic datasets and require prospective clinical validation.\n2. Biological Complexity: Retinal microvascular and neurodegenerative patterns reflect multi-factorial systemic processes.\n3. Explainability Attribution: Grad-CAM heatmaps and SHAP values indicate model parameter attributions and do not establish medical causality.\n4. Modality Missingness: Missing imaging modalities degrade fusion representational capacity relative to complete tripartite scans.",
+  "disclaimer_text": "IMPORTANT RESEARCH NOTICE: This report is generated by an experimental multimodal artificial intelligence research prototype for investigational and decision-support purposes only. The predictions, probability estimates, uncertainty metrics, and explainability visualizations do not constitute a clinically verified medical diagnosis and must never substitute for professional evaluation, diagnosis, or treatment by a board-certified healthcare provider."
+}

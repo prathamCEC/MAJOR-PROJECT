@@ -1,0 +1,2 @@
+report_id,patient_id,timestamp,stroke_pred_class,stroke_probability,stroke_confidence_percent,stroke_uncertainty_level,stroke_risk_category,alzheimer_pred_class,alzheimer_probability,alzheimer_confidence_percent,alzheimer_uncertainty_level,alzheimer_risk_category
+REP-CLINICAL_DEM-20260829105150,CLINICAL_DEMO_01,2026-08-29 10:51:50,0,0.4783,99.28,LOW,MODERATE RISK,0,0.4613,99.04,LOW,MODERATE RISK
