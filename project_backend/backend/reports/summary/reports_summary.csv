@@ -1,0 +1,4 @@
+report_id,patient_id,timestamp,stroke_pred_class,stroke_probability,stroke_confidence_percent,stroke_uncertainty_level,stroke_risk_category,alzheimer_pred_class,alzheimer_probability,alzheimer_confidence_percent,alzheimer_uncertainty_level,alzheimer_risk_category
+REP-TEST_API_PAT-20260829111821,TEST_API_PATIENT,2026-08-29 11:18:21,0,0.4323,99.55,LOW,MODERATE RISK,1,0.5103,99.47,LOW,MODERATE RISK
+REP-TEST_API_PAT-20260829111854,TEST_API_PATIENT,2026-08-29 11:18:54,1,0.5418,98.94,LOW,MODERATE RISK,1,0.5302,99.43,LOW,MODERATE RISK
+REP-TEST_API_PAT-20260829111927,TEST_API_PATIENT,2026-08-29 11:19:27,1,0.5232,99.54,LOW,MODERATE RISK,0,0.4507,99.38,LOW,MODERATE RISK
