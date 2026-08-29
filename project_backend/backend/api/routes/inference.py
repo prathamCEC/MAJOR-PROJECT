@@ -57,6 +57,14 @@ async def analyze_patient_endpoint(
     octb_bytes = await octb_file.read() if octb_file else None
     fundus_bytes = await fundus_file.read() if fundus_file else None
 
+    # Validate that at least one modality is supplied
+    has_image = any(b is not None and len(b) > 0 for b in (octa_bytes, octb_bytes, fundus_bytes))
+    if not has_image:
+        raise HTTPException(
+            status_code=422,
+            detail="Please select and provide at least one retinal imaging modality (OCT-A, OCT-B, or Fundus)."
+        )
+
     # 3. Execute Inference Workflow
     try:
         service = InferenceService()
@@ -67,6 +75,8 @@ async def analyze_patient_endpoint(
             fundus_bytes=fundus_bytes,
         )
         return response
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
         logger.error(f"Inference execution failure: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Inference pipeline execution error: {str(e)}")
