@@ -229,11 +229,23 @@ python -m phase_10_explainability.main explain \
     --output phase_10_explainability/outputs
 ```
 
+### Mode 10 — Phase 11 Clinical-Style Assessment Report Generator (PDF + JSON)
+```bash
+# Report configuration summary
+python -m phase_11_report_generator.main summary
+
+# Generate complete clinical PDF & JSON report for a patient
+python -m phase_11_report_generator.main generate \
+    --patient-id PATIENT_01 \
+    --octa datasets/approved/octa/octa_sample_1_processed.png
+```
+
 ---
 
 ## Running Automated Tests
 
-Run the complete test suite across Phase 2 through Phase 10 + Integration:
+Run the complete test suite across Phase 2 through Phase 11 + Integration:
 ```bash
 python -m pytest -v
 ```
+
