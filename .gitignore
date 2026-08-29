@@ -1,0 +1,26 @@
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Model Checkpoints and Weights (>100MB)
+*.pth
+*.pt
+*.onnx
+*.bin
+*.h5
+*.ckpt
+
+# Output directories with heavy model binaries
+project_backend/phase_4_swin_transformer/outputs/*/best_model.pth
+project_backend/phase_4_swin_transformer/outputs/*/last_model.pth
+project_backend/phase_5_retinal_fusion/outputs/*.pt
+
+# Temporary logs & IDE configs
+.vscode/
+.idea/
+*.log

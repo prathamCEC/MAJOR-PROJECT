@@ -1,0 +1,6 @@
+image_path,modality,label,class_name,patient_id
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\fundus\fundus_sample_1_processed.png,fundus,0,normal,fundus_1
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\fundus\fundus_sample_2_processed.png,fundus,0,normal,fundus_2
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\fundus\fundus_sample_3_processed.png,fundus,0,normal,fundus_3
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\fundus\fundus_sample_4_processed.png,fundus,0,normal,fundus_4
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\fundus\fundus_sample_5_processed.png,fundus,0,normal,fundus_5
