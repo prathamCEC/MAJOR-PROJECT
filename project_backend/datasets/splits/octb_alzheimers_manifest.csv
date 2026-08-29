@@ -1,0 +1,6 @@
+image_path,modality,label,class_name,patient_id
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\octb\octb_sample_1_processed.png,octb,0,normal,octb_1
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\octb\octb_sample_2_processed.png,octb,0,normal,octb_2
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\octb\octb_sample_3_processed.png,octb,0,normal,octb_3
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\octb\octb_sample_4_processed.png,octb,0,normal,octb_4
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\approved\octb\octb_sample_5_processed.png,octb,0,normal,octb_5

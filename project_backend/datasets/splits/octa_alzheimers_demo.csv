@@ -1,0 +1,13 @@
+image_path,modality,label,class_name,patient_id
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_1.png,octa,0,normal,PAT_01
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_2.png,octa,1,alzheimers,PAT_02
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_3.png,octa,0,normal,PAT_03
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_4.png,octa,1,alzheimers,PAT_04
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_5.png,octa,0,normal,PAT_05
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_6.png,octa,1,alzheimers,PAT_06
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_7.png,octa,0,normal,PAT_07
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_8.png,octa,1,alzheimers,PAT_08
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_9.png,octa,0,normal,PAT_09
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_10.png,octa,1,alzheimers,PAT_10
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_11.png,octa,0,normal,PAT_11
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_12.png,octa,1,alzheimers,PAT_12

@@ -1,0 +1,3 @@
+image_path,modality,label,class_name,patient_id
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_2.png,octa,1,alzheimers,PAT_02
+C:\Users\Pratham\project\MAJOR-PROJECT\project_backend\datasets\demo_verification\octa_demo_9.png,octa,0,normal,PAT_09

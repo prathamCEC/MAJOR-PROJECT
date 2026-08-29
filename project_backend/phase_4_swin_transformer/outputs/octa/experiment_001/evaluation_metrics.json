@@ -1,0 +1,38 @@
+{
+  "accuracy": 0.5,
+  "balanced_accuracy": 0.5,
+  "precision_macro": 0.25,
+  "precision_weighted": 0.25,
+  "recall_macro": 0.5,
+  "recall_weighted": 0.5,
+  "f1_macro": 0.3333333333333333,
+  "f1_weighted": 0.3333333333333333,
+  "confusion_matrix": [
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "class_names": [
+    "alzheimers",
+    "normal"
+  ],
+  "per_class_precision": {
+    "alzheimers": 0.5,
+    "normal": 0.0
+  },
+  "per_class_recall": {
+    "alzheimers": 1.0,
+    "normal": 0.0
+  },
+  "per_class_f1": {
+    "alzheimers": 0.6666666666666666,
+    "normal": 0.0
+  },
+  "roc_auc": 0.0,
+  "pr_auc": 0.25
+}
