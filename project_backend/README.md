@@ -1,4 +1,4 @@
-# Retinal Disease AI Backend — Phase 2 to Phase 9 Architecture
+# Retinal Disease AI Backend — Phase 2 to Phase 10 Architecture
 
 ## Project Overview
 This repository contains the backend architecture for research-oriented multimodal retinal image and clinical data analysis across **OCT-A**, **OCT-B**, and **Fundus** imaging modalities alongside structured patient health variables.
@@ -16,7 +16,8 @@ The complete modular system consists of:
 6. **Phase 7 — Retina–Clinical Cross-Attention Fusion & Unified Patient Representation (UPR)**: Fuses Retinal (URR) and Clinical (CR) vectors via bidirectional cross-attention and learnable gated multimodal fusion into a **Unified Patient Representation (UPR)** vector ($[B, 512]$).
 7. **Phase 8 — Multi-Task Disease Prediction Network**: Consumes the UPR to perform decoupled, simultaneous binary predictions for **Stroke** and **Alzheimer's Disease** with masked multi-task loss and class imbalance handling.
 8. **Phase 9 — Monte Carlo Dropout & Model Confidence Engine**: Performs stochastic inference forward passes with active dropout to quantify predictive uncertainty (predictive mean, variance, standard deviation, predictive Shannon entropy) and bounded research confidence scores.
-9. **Integration Layers**: Bridges Phases 2 through 9 into automated end-to-end workflows.
+9. **Phase 10 — Multimodal Explainability (Swin Grad-CAM + Clinical SHAP)**: Delivers spatial visual heatmaps of retinal scans and game-theoretic marginal attributions for patient clinical variables, fully integrated with Phase 9 uncertainty.
+10. **Integration Layers**: Bridges Phases 2 through 10 into automated end-to-end workflows.
 
 ---
 
@@ -75,11 +76,13 @@ The complete modular system consists of:
                                    MONTE CARLO DROPOUT UNCERTAINTY
                                     (T Stochastic Forward Passes)
                                                     │
-                                     ┌──────────────┴──────────────┐
-                                     ↓                             ↓
-                            STROKE UNCERTAINTY            ALZHEIMER'S UNCERTAINTY
-                            (Mean, Var, Std,              (Mean, Var, Std,
-                             Entropy, Confidence)          Entropy, Confidence)
+                                                    ▼
+                                                 PHASE 10
+                                     MULTIMODAL EXPLAINABILITY ENGINE
+                               ┌────────────────────┴────────────────────┐
+                               ↓                                         ↓
+                       SWIN GRAD-CAM                             CLINICAL SHAP
+                 (Retinal Spatial Heatmaps)                  (Tabular Attributions)
 ```
 
 ---
@@ -108,6 +111,18 @@ project_backend/
 │   ├── main.py                           # CLI entry point for summary and estimation
 │   ├── tests/                            # Comprehensive unit & integration tests
 │   ├── README.md                         # Phase 9 documentation
+│   └── requirements.txt
+│
+├── phase_10_explainability/              # Phase 10 Explainability Package (8 tests)
+│   ├── config.py                         # Explainability settings & output paths
+│   ├── swin_gradcam.py                   # Swin Grad-CAM engine with token spatial reshaping
+│   ├── shap_explainer.py                 # Tabular marginal SHAP feature attributions
+│   ├── visualization.py                  # 3-Panel Grad-CAM figures and SHAP bar charts
+│   ├── explainability_engine.py          # MultimodalExplainabilityEngine module
+│   ├── pipeline.py                       # End-to-end full patient explainability pipeline
+│   ├── main.py                           # CLI entry point (summary, explain)
+│   ├── tests/                            # Unit & integration tests
+│   ├── README.md                         # Phase 10 documentation
 │   └── requirements.txt
 │
 ├── integration/                          # Integration Layer
@@ -202,11 +217,23 @@ python -m phase_9_uncertainty.main estimate \
     --output phase_9_uncertainty/outputs/uncertainty_estimates.pt
 ```
 
+### Mode 9 — Phase 10 Multimodal Explainability (Grad-CAM + SHAP)
+```bash
+# Explainability summary
+python -m phase_10_explainability.main summary
+
+# Generate explainability report & visual figures for a patient
+python -m phase_10_explainability.main explain \
+    --patient-id PATIENT_01 \
+    --octa datasets/approved/octa/octa_sample_1_processed.png \
+    --output phase_10_explainability/outputs
+```
+
 ---
 
 ## Running Automated Tests
 
-Run the complete test suite across Phase 2 through Phase 9 + Integration:
+Run the complete test suite across Phase 2 through Phase 10 + Integration:
 ```bash
 python -m pytest -v
 ```
