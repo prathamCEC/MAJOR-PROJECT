@@ -108,6 +108,83 @@ def save_gradcam_panel(
     return path
 
 
+def save_gradcam_components(
+    original_img: Union[np.ndarray, Image.Image],
+    cam: np.ndarray,
+    output_dir: Union[str, Path],
+    file_prefix: str = "gradcam",
+    title: str = "Grad-CAM Explanation",
+    modality: str = "OCT-A",
+    disease_target: str = "Stroke",
+    alpha: float = 0.5,
+    colormap: str = "jet",
+) -> Dict[str, Path]:
+    """
+    Save individual components for interactive UI:
+    - Original retinal image
+    - Pure Grad-CAM heatmap (colored)
+    - Alpha-blended retinal overlay
+    - 3-Panel comparison figure
+
+    Returns:
+        Dict mapping 'original', 'heatmap', 'overlay', 'panel' to their Path objects.
+    """
+    out_dir = Path(output_dir).resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    colored_cam, overlay = overlay_cam_on_image(original_img, cam, alpha=alpha, colormap=colormap)
+
+    if isinstance(original_img, Image.Image):
+        orig_np = np.array(original_img.convert("RGB"))
+    else:
+        orig_np = original_img
+
+    orig_path = out_dir / f"{file_prefix}_original.png"
+    heatmap_path = out_dir / f"{file_prefix}_heatmap.png"
+    overlay_path = out_dir / f"{file_prefix}_overlay.png"
+    legacy_panel_path = out_dir / f"{file_prefix}.png"
+    panel_path = out_dir / f"{file_prefix}_panel.png"
+
+    # 1. Save Original Image
+    if orig_np.ndim == 2:
+        Image.fromarray(orig_np).save(orig_path)
+    else:
+        if orig_np.dtype != np.uint8:
+            orig_to_save = (np.clip(orig_np, 0.0, 1.0) * 255).astype(np.uint8)
+        else:
+            orig_to_save = orig_np
+        Image.fromarray(orig_to_save).save(orig_path)
+
+    # 2. Save Pure Heatmap
+    Image.fromarray(colored_cam).save(heatmap_path)
+
+    # 3. Save Overlay
+    Image.fromarray(overlay).save(overlay_path)
+
+    # 4. Save 3-Panel Figure
+    save_gradcam_panel(
+        original_img=original_img,
+        cam=cam,
+        output_path=legacy_panel_path,
+        title=title,
+        modality=modality,
+        disease_target=disease_target,
+        alpha=alpha,
+        colormap=colormap,
+    )
+    if panel_path != legacy_panel_path:
+        import shutil
+        shutil.copyfile(legacy_panel_path, panel_path)
+
+    return {
+        "original": orig_path,
+        "heatmap": heatmap_path,
+        "overlay": overlay_path,
+        "panel": legacy_panel_path,
+    }
+
+
+
 def save_shap_bar_chart(
     shap_summary: List[Dict[str, Any]],
     output_path: Union[str, Path],

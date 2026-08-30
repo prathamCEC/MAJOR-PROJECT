@@ -20,7 +20,7 @@ from phase_9_uncertainty.engine import MCDropoutUncertaintyEngine
 from .config import ExplainabilityConfig, get_default_explainability_config
 from .swin_gradcam import SwinGradCAM
 from .shap_explainer import MultimodalSHAPExplainer
-from .visualization import save_gradcam_panel, save_shap_bar_chart
+from .visualization import save_gradcam_panel, save_gradcam_components, save_shap_bar_chart
 
 
 class MultimodalExplainabilityEngine:
@@ -164,23 +164,25 @@ class MultimodalExplainabilityEngine:
                     cam_stroke = gradcam.generate_cam(forward_fn=forward_stroke, input_size=(orig_np.shape[0], orig_np.shape[1]))
                     cam_alz = gradcam.generate_cam(forward_fn=forward_alzheimer, input_size=(orig_np.shape[0], orig_np.shape[1]))
 
-                    # Save visual panels if enabled
-                    plot_stroke_path = None
-                    plot_alz_path = None
+                    # Save visual components and panels if enabled
+                    plot_stroke_paths = None
+                    plot_alz_paths = None
                     if should_save:
-                        plot_stroke_path = save_gradcam_panel(
+                        plot_stroke_paths = save_gradcam_components(
                             original_img=orig_np,
                             cam=cam_stroke,
-                            output_path=patient_dir / f"gradcam_stroke_{mod_key}.png",
+                            output_dir=patient_dir,
+                            file_prefix=f"gradcam_stroke_{mod_key}",
                             modality=mod_key,
                             disease_target="Stroke",
                             colormap=self.config.gradcam_colormap,
                             alpha=self.config.gradcam_alpha,
                         )
-                        plot_alz_path = save_gradcam_panel(
+                        plot_alz_paths = save_gradcam_components(
                             original_img=orig_np,
                             cam=cam_alz,
-                            output_path=patient_dir / f"gradcam_alzheimer_{mod_key}.png",
+                            output_dir=patient_dir,
+                            file_prefix=f"gradcam_alzheimer_{mod_key}",
                             modality=mod_key,
                             disease_target="Alzheimer",
                             colormap=self.config.gradcam_colormap,
@@ -189,12 +191,20 @@ class MultimodalExplainabilityEngine:
 
                     gradcam_results["stroke"][mod_key] = {
                         "cam_heatmap": cam_stroke,
-                        "visualization_path": str(plot_stroke_path) if plot_stroke_path else None,
+                        "visualization_path": str(plot_stroke_paths["panel"]) if plot_stroke_paths else None,
+                        "panel_path": str(plot_stroke_paths["panel"]) if plot_stroke_paths else None,
+                        "original_path": str(plot_stroke_paths["original"]) if plot_stroke_paths else None,
+                        "heatmap_path": str(plot_stroke_paths["heatmap"]) if plot_stroke_paths else None,
+                        "overlay_path": str(plot_stroke_paths["overlay"]) if plot_stroke_paths else None,
                         "status": "SUCCESS",
                     }
                     gradcam_results["alzheimer"][mod_key] = {
                         "cam_heatmap": cam_alz,
-                        "visualization_path": str(plot_alz_path) if plot_alz_path else None,
+                        "visualization_path": str(plot_alz_paths["panel"]) if plot_alz_paths else None,
+                        "panel_path": str(plot_alz_paths["panel"]) if plot_alz_paths else None,
+                        "original_path": str(plot_alz_paths["original"]) if plot_alz_paths else None,
+                        "heatmap_path": str(plot_alz_paths["heatmap"]) if plot_alz_paths else None,
+                        "overlay_path": str(plot_alz_paths["overlay"]) if plot_alz_paths else None,
                         "status": "SUCCESS",
                     }
                 except Exception as e:

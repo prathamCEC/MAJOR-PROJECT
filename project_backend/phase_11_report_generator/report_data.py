@@ -58,6 +58,9 @@ class GradCAMItem:
     modality: str
     status: str = "UNAVAILABLE"  # "SUCCESS", "UNAVAILABLE", "ERROR"
     panel_path: Optional[str] = None
+    original_path: Optional[str] = None
+    heatmap_path: Optional[str] = None
+    overlay_path: Optional[str] = None
     caption: str = "Grad-CAM visualization of salient retinal regions contributing to model prediction."
 
 

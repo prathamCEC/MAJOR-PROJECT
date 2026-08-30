@@ -13,7 +13,7 @@ import uuid
 from PIL import Image
 
 from phase_2_image_preprocessing.src.pipeline import PreprocessPipeline
-from phase_3_image_quality_assessment.src.pipeline import QualityAssessmentPipeline
+from phase_3_image_quality_assessment.src.pipeline import assess_image_file
 from ..core.config import settings
 from ..core.logging_config import logger
 from ..schemas.input_schema import PatientClinicalInput
@@ -36,7 +36,6 @@ class InferenceService:
     def __init__(self):
         self.model_manager = ModelManager.get_instance()
         self.preprocessor = PreprocessPipeline()
-        self.quality_evaluator = QualityAssessmentPipeline()
 
     def stage_uploaded_images(
         self,
@@ -94,7 +93,7 @@ class InferenceService:
                 processed_paths[mod_name] = proc_path
 
                 # Phase 3 Quality Assessment
-                q_res = self.quality_evaluator.assess_image_file(proc_path, modality=mod_name)
+                q_res = assess_image_file(proc_path, modality=mod_name)
                 quality_results[mod_name] = {
                     "quality_score": float(q_res.overall_score),
                     "decision": str(q_res.decision),
@@ -197,6 +196,9 @@ class InferenceService:
                     mod: {
                         "status": item.status,
                         "panel_path": item.panel_path,
+                        "original_path": item.original_path,
+                        "heatmap_path": item.heatmap_path,
+                        "overlay_path": item.overlay_path,
                     } for mod, item in exp.stroke_gradcam.items()
                 },
                 "shap_clinical": [item.model_dump() for item in stroke_shap_items],
@@ -207,12 +209,24 @@ class InferenceService:
                     mod: {
                         "status": item.status,
                         "panel_path": item.panel_path,
+                        "original_path": item.original_path,
+                        "heatmap_path": item.heatmap_path,
+                        "overlay_path": item.overlay_path,
                     } for mod, item in exp.alzheimer_gradcam.items()
                 },
                 "shap_clinical": [item.model_dump() for item in alz_shap_items],
                 "shap_plot_path": exp.alzheimer_shap_plot_path,
             },
         }
+
+        # Deterministic overall risk level calculation based on model predicted probabilities
+        max_prob = max(st.probability, al.probability)
+        if max_prob >= 0.65:
+            overall_risk_level = "HIGH"
+        elif max_prob >= 0.35:
+            overall_risk_level = "MODERATE"
+        else:
+            overall_risk_level = "LOW"
 
         # Build Final Response
         response = AnalysisResponse(
@@ -253,6 +267,7 @@ class InferenceService:
                 is_elevated_uncertainty=al.is_elevated_uncertainty,
                 statement=f"Model confidence is {al.confidence_percent:.1f}% with {al.uncertainty_level.lower()} predictive variance.",
             ),
+            overall_risk_level=overall_risk_level,
             explainability=explainability_dict,
             clinical_summary=report_data.clinical_summary_text,
             pdf_report_path=report_out["pdf_path"],

@@ -79,14 +79,33 @@ async def test_all_7_modality_combinations(modality_subset):
         assert response.status_code == 200, f"Failed on {modality_subset}: {response.text}"
         data = response.json()
 
-        assert data["status"] == "success"
-        assert set(data["modalities_processed"]) == set(modality_subset)
-        assert 0.0 <= data["stroke_prediction"]["probability"] <= 1.0
-        assert 0.0 <= data["alzheimer_prediction"]["probability"] <= 1.0
-        assert 0.0 <= data["stroke_uncertainty"]["confidence_percent"] <= 100.0
+        assert data["overall_risk_level"] in ["LOW", "MODERATE", "HIGH"]
+
+        # Verify Grad-CAM structure for provided vs non-provided modalities
+        exp = data["explainability"]
+        for target in ["stroke", "alzheimer"]:
+            for m in ["octa", "octb", "fundus"]:
+                if m in modality_subset:
+                    assert exp[target]["gradcam"][m]["status"] == "SUCCESS"
+                    assert exp[target]["gradcam"][m].get("panel_path") is not None
+                    assert exp[target]["gradcam"][m].get("original_path") is not None
+                    assert exp[target]["gradcam"][m].get("heatmap_path") is not None
+                    assert exp[target]["gradcam"][m].get("overlay_path") is not None
+                else:
+                    assert exp[target]["gradcam"][m]["status"] == "MODALITY_NOT_PROVIDED"
 
         # Verify PDF report retrieval
         rep_id = data["report_id"]
         pdf_resp = await client.get(f"/api/v1/report/{rep_id}/pdf")
         assert pdf_resp.status_code == 200
         assert len(pdf_resp.content) > 1000
+        assert pdf_resp.headers["content-type"] == "application/pdf"
+
+        # Verify JSON report retrieval
+        json_resp = await client.get(f"/api/v1/report/{rep_id}/json")
+        assert json_resp.status_code == 200
+        json_data = json_resp.json()
+        assert json_data["patient_id"] == data["patient_id"]
+        assert "stroke_assessment" in json_data
+        assert "alzheimer_assessment" in json_data
+

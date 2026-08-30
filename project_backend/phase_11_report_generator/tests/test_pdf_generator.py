@@ -91,7 +91,7 @@ def test_pdf_generation_complete(tmp_path: Path):
 
 
 def test_pdf_generation_resilient_to_missing_images(tmp_path: Path):
-    """Verify PDF generator does not crash if an optional Grad-CAM image is missing on disk."""
+    """Verify PDF generator does not crash if an optional SHAP image is missing on disk."""
     data = ClinicalReportData(
         report_id="REP-PDF-NO-IMG",
         patient_id="PATIENT-NO-IMG",
@@ -137,3 +137,4 @@ def test_pdf_generation_resilient_to_missing_images(tmp_path: Path):
 
     assert pdf_path.exists()
     assert pdf_path.stat().st_size > 500
+
