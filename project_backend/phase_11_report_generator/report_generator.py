@@ -171,7 +171,10 @@ class ClinicalReportGenerator:
             st_gcam[mod] = GradCAMItem(
                 modality=mod,
                 status=item.get("status", "UNAVAILABLE"),
-                panel_path=item.get("panel_path"),
+                panel_path=item.get("panel_path") or item.get("visualization_path"),
+                original_path=item.get("original_path"),
+                heatmap_path=item.get("heatmap_path"),
+                overlay_path=item.get("overlay_path"),
             )
 
         al_gcam = {}
@@ -179,7 +182,10 @@ class ClinicalReportGenerator:
             al_gcam[mod] = GradCAMItem(
                 modality=mod,
                 status=item.get("status", "UNAVAILABLE"),
-                panel_path=item.get("panel_path"),
+                panel_path=item.get("panel_path") or item.get("visualization_path"),
+                original_path=item.get("original_path"),
+                heatmap_path=item.get("heatmap_path"),
+                overlay_path=item.get("overlay_path"),
             )
 
         # SHAP items

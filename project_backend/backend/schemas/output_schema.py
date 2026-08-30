@@ -54,6 +54,9 @@ class UncertaintyItem(BaseModel):
 class GradCAMResponseItem(BaseModel):
     status: str
     panel_path: Optional[str] = None
+    original_path: Optional[str] = None
+    heatmap_path: Optional[str] = None
+    overlay_path: Optional[str] = None
     panel_url: Optional[str] = None
 
 
@@ -76,6 +79,7 @@ class AnalysisResponse(BaseModel):
     stroke_uncertainty: UncertaintyItem
     alzheimer_prediction: DiseasePredictionItem
     alzheimer_uncertainty: UncertaintyItem
+    overall_risk_level: str = "LOW"
     explainability: Dict[str, Any]
     clinical_summary: str
     pdf_report_path: str
