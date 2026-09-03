@@ -69,6 +69,7 @@ class ClinicalSHAPItemResponse(BaseModel):
 
 class AnalysisResponse(BaseModel):
     status: str = "success"
+    session_id: Optional[str] = None
     report_id: str
     patient_id: str
     timestamp: str

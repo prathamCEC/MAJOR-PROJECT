@@ -231,6 +231,7 @@ class InferenceService:
         # Build Final Response
         response = AnalysisResponse(
             status="success",
+            session_id=f"SESS-{report_data.report_id}",
             report_id=report_data.report_id,
             patient_id=report_data.patient_id,
             timestamp=report_data.generated_at,

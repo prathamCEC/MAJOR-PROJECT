@@ -24,6 +24,8 @@ project_backend/phase_5_retinal_fusion/outputs/*.pt
 .vscode/
 .idea/
 *.log
+logs/
+project_backend/logs/
 
 # Runtime uploads, generated reports and explainability outputs
 project_backend/backend/uploads/
@@ -32,3 +34,26 @@ project_backend/backend/reports/json/
 project_backend/phase_10_explainability/outputs/
 project_backend/phase_11_report_generator/outputs/reports/pdf/
 project_backend/phase_11_report_generator/outputs/reports/json/
+
+# Environment Variables & Secrets
+.env
+*.env
+.env.*
+!.env.example
+credentials*
+secrets*
+*.pem
+*.key
+private_uploads/
+
+# SQL Databases
+*.db
+*.sqlite
+*.sqlite3
+project_backend/*.db
+project_backend/backend/*.db
+
+# Presentation & Overview Text Files (Excluded per instruction)
+ppt content.txt
+project_overview.txt
+PROJECT_OVERVIEW.md
